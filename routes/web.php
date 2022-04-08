@@ -34,6 +34,8 @@ Route::middleware('auth')
 
         Route::resource('categories','CategoryController');
 
+        Route::resource('tags','TagController');
+
     });
 
 

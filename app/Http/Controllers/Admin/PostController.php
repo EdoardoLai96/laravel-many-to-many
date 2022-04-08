@@ -100,8 +100,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post','categories'));
     }
 
     /**
@@ -147,9 +147,8 @@ class PostController extends Controller
        
         $data['slug'] = $slug;
 
-        $post = new Post;
 
-        $post->fill($data);
+        $post->update($data);
         $post->save();
 
         return redirect()->route('admin.posts.index');

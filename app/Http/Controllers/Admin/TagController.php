@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Category;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-
-class CategoryController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('admin.categories.index',compact('categories'));
+        $tags = Tag::all();
+
+        return view('admin.tags.index',compact('tags'));
+
     }
 
     /**
@@ -28,9 +29,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        return view('admin.categories.create',compact('categories'));
-        
+        $tags = Tag::all();
+        return view('admin.tags.create',compact('tags'));
 
     }
 
@@ -42,34 +42,36 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-
-        $request->validate(
-            [
-            'name'=>'required',
-        ]);
-
-        $slug=Str::slug($data['name']);
-
-        $counter = 1;
-
-
-        while (Category::where('slug', $slug)->first()) {
-            $slug = Str::slug($data['name']) . '-' . $counter;
-            $counter++;
+        {
+            $data = $request->all();
+    
+            $request->validate(
+                [
+                'name'=>'required',
+            ]);
+    
+            $slug=Str::slug($data['name']);
+    
+            $counter = 1;
+    
+    
+            while (Tag::where('slug', $slug)->first()) {
+                $slug = Str::slug($data['name']) . '-' . $counter;
+                $counter++;
+            }
+    
+    
+            $data['slug'] = $slug;
+    
+            $tag = new Tag();
+    
+            $tag->fill($data);
+            $tag->save();
+    
+            return redirect()->route('admin.tags.index');
+    
+    
         }
-
-
-        $data['slug'] = $slug;
-
-        $category = new Category();
-
-        $category->fill($data);
-        $category->save();
-
-        return redirect()->route('admin.categories.index');
-
-
     }
 
     /**
@@ -78,9 +80,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Tag $tag)
     {
-        return view('admin.categories.show',compact('category'));
+        return view('admin.tags.show',compact('tag'));
 
     }
 
@@ -90,9 +92,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Tag $tag)
     {
-        return view('admin.categories.edit', compact('category'));
+        return view('admin.tags.edit', compact('tag'));
     }
 
     /**
@@ -102,7 +104,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Tag $tag)
     {
         $data = $request->all();
 
@@ -115,9 +117,9 @@ class CategoryController extends Controller
 
 
 
-        if ($category->slug != $slug) {
+        if ($tag->slug != $slug) {
             $counter = 1;
-            while (Category::where('slug', $slug)->first()) {
+            while (Tag::where('slug', $slug)->first()) {
                 $slug = Str::slug($data['name']) . '-' . $counter;
                 $counter++;
             }
@@ -128,10 +130,11 @@ class CategoryController extends Controller
         $data['slug'] = $slug;
 
 
-        $category->udpdate($data);
-        $category->save();
+        $tag->update($data);
+        $tag->save();
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.tags.index');
+
 
 
     }
@@ -142,10 +145,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Tag $tag)
     {
-        $category->delete();
-        return redirect()->route('admin.categories.index');
+        $tag->delete();
+        return redirect()->route('admin.tags.index');
 
     }
 }
