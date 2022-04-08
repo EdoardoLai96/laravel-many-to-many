@@ -26,17 +26,16 @@
             <textarea class="form-control" id="content" name="content" rows="3">{{old('content')}}</textarea>
           </div>
 
-            {{-- <label for="category_id">Categoria</label> 
-
-            <select class="form-control mb-3" id="category_id" name="category_id">
-              <option value="">Nessuna Categoria</option>
-              @foreach ($categories as $category)
-                <option value="{{$category->id}}">{{$category->name}}</option>
-              @endforeach
-            </select> --}}
-
-          <div class="mb-3">
-            <button type="submit" class="btn btn-primary mb-3">Crea Nuovo Post</button>
+          @foreach ($tags as $tag)
+          <div class="custom-control custom-checkbox">
+              <input name="tags[]" type="checkbox" class="custom-control-input" id="tag_{{$tag->id}}" value={{$tag->id}} {{in_array($tag->id, old('tags', []))?'checked':''}}>
+              <label class="custom-control-label" for="tag_{{$tag->id}}">{{$tag->name}}</label>
+          </div>
+          @endforeach 
+            
+            
+            <div class="mb-3">
+            <button type="submit" class="btn btn-primary my-3">Crea Nuovo Post</button>
           </div>
     </form>
 @endsection

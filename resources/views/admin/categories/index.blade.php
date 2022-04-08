@@ -11,7 +11,7 @@
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Nome</th>
+                        <th scope="col">Categoria</th>
                         <th style="text-align: center" scope="col">Azioni</th>
                       </tr>
                     </thead>

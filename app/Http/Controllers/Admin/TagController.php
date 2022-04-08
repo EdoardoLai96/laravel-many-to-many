@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Tag;
+use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -82,7 +83,8 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        return view('admin.tags.show',compact('tag'));
+        $posts = Post::all();
+        return view('admin.tags.show',compact('tag','posts'));
 
     }
 

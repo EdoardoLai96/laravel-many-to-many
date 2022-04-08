@@ -1,7 +1,7 @@
 @extends('admin.layouts.base')
 
 @section('content')
-    <form class="container" action="{{route('admin.tags.update',$category->id)}}" method="POST">
+    <form class="container" action="{{route('admin.tags.update',$tag->id)}}" method="POST">
         @csrf
         @method('PUT')
         <div class="mb-3">
